@@ -1,8 +1,3 @@
-###
-# note by S.H. as of Apr 25, 2024
-# Edited to be enable to view easily TABLE 1.2 and 1.3 as you see them in the book of AMDA.
-###
-
 # identify auxiliary variables with missing data indicators and residual correlations
 
 # load packages
