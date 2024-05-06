@@ -1,0 +1,15 @@
+# example 5.4: bayesian moderated regression with partially factored (multivariate) distribution for incomplete predictors and latent responses
+DATA: pain.dat;
+VARIABLES:  id txgrp male age edugroup workhrs exercise paingrps pain 
+	anxiety stress control depress interfere disability dep1:dep7 interf1:interf6 disab1:disab6;
+ORDINAL: male pain;
+MISSING: 999;
+FIXED: male;
+CENTER: depress;
+MODEL: 
+# automatic multivariate distribution for incomplete predictors and latent response scores
+disability ~  depress male depress*male pain;
+SIMPLE: depress | male;
+SEED: 90291;
+BURN: 1000;
+ITERATIONS: 10000;

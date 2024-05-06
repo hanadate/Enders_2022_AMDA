@@ -1,0 +1,18 @@
+# example 4.10: bayesian correlation matrix
+DATA: employeecomplete.dat;
+VARIABLES: employee team turnover male empower lmx worksat climate cohesion;
+MODEL:
+worksat empower lmx <-> worksat empower lmx;  #  covariances / correlations
+worksat <-> worksat@ws_var;  # label variances
+empower <-> empower@emp_var;
+lmx <-> lmx@lmx_var;
+PARAMETERS: 
+# define standard deviations as new parameters
+ws_sd = sqrt(ws_var);
+emp_sd = sqrt(emp_var);
+lmx_sd = sqrt(lmx_var);
+SEED: 90291;
+BURN: 10000;
+ITERATIONS: 20000;
+OPTIONS: use_phantom;  # phantom variable correlation w separation prior
+

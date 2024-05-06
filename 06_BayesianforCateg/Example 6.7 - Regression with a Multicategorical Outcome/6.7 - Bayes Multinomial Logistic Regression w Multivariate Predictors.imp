@@ -1,0 +1,15 @@
+# example 6.7: bayesian multinomial logistic regression for multicategorical outcome
+DATA: pain.dat;
+VARIABLES:  id txgrp male age edugroup workhrs exercise paingrp pain 
+	anxiety stress control depress interfere disability dep1:dep7 interf1:interf6 disab1:disab6;
+NOMINAL: paingrp;
+MISSING: 999;
+FIXED: control male;
+MODEL: 
+logit(paingrp) ~ exercise control male; # lowest code is the reference group;
+SEED: 90291;
+BURN: 1000;
+ITERATIONS: 10000;
+
+
+

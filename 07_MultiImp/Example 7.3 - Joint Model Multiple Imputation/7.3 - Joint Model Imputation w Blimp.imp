@@ -1,0 +1,18 @@
+# example 7.3: joint model multiple imputation
+DATA: math.dat;
+VARIABLES: id male frlunch achievegrp stanread efficacy anxiety mathpre mathpost;
+ORDINAL: frlunch;
+MISSING: 999;
+MODEL: 
+{ mathpost mathpre frlunch stanread } ~ 1;
+mathpost mathpre frlunch stanread ~~ mathpost mathpre frlunch stanread;
+SEED: 90291;
+BURN: 1000;
+ITERATIONS: 1000;
+NIMPS: 100;  # setting nimps = chains saves one data set at the end of each mcmc chain
+CHAINS: 100;
+SAVE: 
+stacked = ./imps/imps.dat; # R, SAS, SPSS format
+stacked0 = ./imps/imps0.dat; # Stata format
+separate = ./imps/imp*.dat; # Mplus format
+

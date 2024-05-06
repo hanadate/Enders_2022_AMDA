@@ -1,0 +1,13 @@
+# example 4.8: bayesian multiple regression;
+DATA: smokingcomplete.dat;
+VARIABLES: id intensity hvysmoker age parsmoke female race income educ;
+FIXED: parsmoke age income;
+CENTER: age income;
+MODEL:
+intensity ~ parsmoke@beta1 age@beta2 income@beta3;
+TEST:
+beta1:beta3 = 0;
+SEED: 90291;
+BURN: 1000;
+ITERATIONS: 10000;
+

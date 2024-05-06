@@ -1,0 +1,25 @@
+TITLE: 
+example 5.8: bayes regression with factored (sequential) specification for auxiliary variables;
+DATA:
+file = drugtrial.dat;
+VARIABLE:
+names = id male drug severe0 severe1 severe3 severe6 dropgrp 
+     edrop ldrop dropout sdrop3 sdrop6;
+usevariables = male drug severe0 severe1 severe3 severe6;
+missing = all(999);
+DEFINE:
+center male severe0 (grandmean);
+ANALYSIS:
+estimator = bayes;
+fbiterations = 10000;
+bseed = 90291;
+MODEL:
+! factored (sequential) specification for predictors;
+severe0 on drug male;
+! focal model;
+severe6 on drug severe0 male;
+! factored (sequential) specification for auxiliary variables;
+severe3 on severe6 severe0 drug male;
+severe1 on severe3 severe6 severe0 drug male;
+OUTPUT:
+patterns stdyx tech8;

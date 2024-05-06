@@ -1,0 +1,10 @@
+DATA: 
+file = ./imps/mimplist.dat;
+type = imputation;
+VARIABLE: 
+names = mathpre mathpost stanread lunchasst;
+usevariables =  change;
+DEFINE:
+change = mathpost - mathpre;
+MODEL:
+change;

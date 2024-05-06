@@ -1,0 +1,20 @@
+TITLE:
+example 6.9: bayesian binary logistic regression with multivariate normal predictors;
+DATA: 
+file = employee.dat;
+VARIABLE: 
+names = employee team turnover male empower lmx worksat climate cohesion;
+usevariables = turnover lmx empower male;
+nominal = turnover;
+missing = all(999);
+ANALYSIS:
+estimator = bayes;
+fbiterations = 10000;
+bseed = 90291;
+MODEL:
+! normal distribution for predictors;
+lmx empower male;
+! focal regression model;
+turnover on lmx empower male;
+OUTPUT:
+patterns stdyx tech8;

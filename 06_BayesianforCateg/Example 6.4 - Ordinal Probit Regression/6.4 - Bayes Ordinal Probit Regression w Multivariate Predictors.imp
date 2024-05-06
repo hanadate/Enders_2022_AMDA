@@ -1,0 +1,12 @@
+# example 6.4: bayesian ordinal probit regression with partially factored (multivariate) distribution for incomplete predictors and latent responses
+DATA: employee.dat;
+VARIABLES: employee team turnover male empower lmx worksat climate cohesion;
+ORDINAL: worksat male;
+MISSING: 999;
+FIXED: male;
+MODEL: 
+worksat ~ lmx empower male; # automatic multivariate distribution for incomplete predictors and latent response scores
+SEED: 90291;
+BURN: 10000;
+ITERATIONS: 10000;
+

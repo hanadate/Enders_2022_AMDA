@@ -1,0 +1,26 @@
+TITLE: 
+example 5.8: bayes regression with auxiliary variables as extra dependent variables;
+DATA:
+file = drugtrial.dat;
+VARIABLE:
+names = id male drug severe0 severe1 severe3 severe6 dropgrp 
+     edrop ldrop dropout sdrop3 sdrop6;
+usevariables = male drug severe0 severe1 severe3 severe6;
+missing = all(999);
+DEFINE:
+center severe0 male (grandmean);
+ANALYSIS:
+estimator = bayes;
+fbiterations = 10000;
+bseed = 90291;
+MODEL:
+! normal distribution for predictors;
+drug severe0 male;
+! focal model;
+severe6 on drug severe0 male;
+! auxiliary variables as extra dependent variables with correlated errors;
+severe1 on severe0 drug male;
+severe3 on severe0 drug male;
+severe1 severe3 severe6 with severe1 severe3 severe6;
+OUTPUT:
+patterns stdyx tech8;

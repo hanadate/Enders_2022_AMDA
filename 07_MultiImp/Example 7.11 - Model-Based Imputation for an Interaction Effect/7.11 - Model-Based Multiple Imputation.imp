@@ -1,0 +1,22 @@
+# example 7.11: model-based multiple imputation for a moderated regression analysis
+DATA: pain.dat;
+VARIABLES:  id txgrp male age edugroup workhrs exercise paingrps pain 
+	anxiety stress control depress interfere disability dep1:dep7 interf1:interf6 disab1:disab6;
+ORDINAL: male pain;
+MISSING: 999;
+FIXED: male;
+MODEL: 
+focal.model:
+disability ~  depress male depress*male pain;  # automatic multivariate distribution for incomplete predictors and latent response scores
+auxiliary.variable.models:
+anxiety stress control interfere ~ disability depress male pain;  # automatic sequential specification for auxiliary variables to the left of the tilde
+SEED: 90291;
+BURN: 1000;
+ITERATIONS: 10000;
+NIMPS: 100; # setting nimps = chains saves one data set at the end of each mcmc chain
+CHAINS: 100;
+SAVE: 
+stacked = ./imps/imps.dat; # R, SAS, SPSS format
+stacked0 = ./imps/imps0.dat; # Stata format
+separate = ./imps/imp*.dat; # Mplus format
+

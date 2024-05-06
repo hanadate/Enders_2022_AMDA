@@ -1,0 +1,13 @@
+# example 5.7: bayesian curvilinear regression with partially factored (multivariate) distribution for incomplete predictors and latent responses
+DATA: math.dat;
+VARIABLES: id male frlunch achievegrp stanread efficacy anxiety mathpre mathpost;
+ORDINAL: frlunch male;
+MISSING: 999;
+FIXED: male mathpre;
+CENTER: anxiety;
+# automatic multivariate distribution for incomplete predictors and latent response scores
+MODEL: mathpost ~ anxiety (anxiety^2) frlunch mathpre male ;
+SEED: 12345;
+BURN: 1000;
+ITERATIONS: 10000;
+

@@ -1,0 +1,15 @@
+# example 5.8: bayesian  regression with sequential specification for auxiliary variables
+DATA: drugtrial.dat;
+VARIABLES: id male drug severity0 severity1 severity3 severity6 dropgrp earlydrop latedrop dropout sdrop3 sdrop6;
+ORDINAL: male drug;
+MISSING: 999;
+FIXED: male drug;
+CENTER: severity0 male;
+MODEL: 
+focal.model:
+severity6 ~  drug severity0 male;  # automatic multivariate distribution for incomplete predictors and latent response scores
+auxiliary.variable.models:
+severity1 severity3 ~ severity6 drug severity0 male;  # automatic sequential specification for variables to the left of the tilde
+SEED: 90291;
+BURN: 1000;
+ITERATIONS: 10000;

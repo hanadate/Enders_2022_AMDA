@@ -1,0 +1,25 @@
+TITLE: 
+example 5.8: bayes regression with saturated correlates auxiliary model;
+DATA:
+file = drugtrial.dat;
+VARIABLE:
+names = id male drug severe0 severe1 severe3 severe6 dropgrp 
+     edrop ldrop dropout sdrop3 sdrop6;
+usevariables = male drug severe0 severe1 severe3 severe6;
+missing = all(999);
+DEFINE:
+center severe0 male (grandmean);
+ANALYSIS:
+estimator = bayes;
+fbiterations = 30000;
+bseed = 90291;
+algorithm = mh;
+MODEL:
+! normal distribution for predictors;
+drug severe0 male;
+! focal model;
+severe6 on drug severe0 male;
+! auxiliary variable correlations;
+severe1 severe3 with male drug severe0 severe1 severe3 severe6; 
+OUTPUT:
+patterns stdyx tech8;

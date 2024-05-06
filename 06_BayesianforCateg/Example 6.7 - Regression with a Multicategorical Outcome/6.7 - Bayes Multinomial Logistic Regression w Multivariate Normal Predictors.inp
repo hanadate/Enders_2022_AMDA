@@ -1,0 +1,22 @@
+TITLE: 
+example 6.7: bayesian multinomial logistic regression for multicategorical outcome;
+DATA: 
+file = pain.dat;
+VARIABLE:  
+names = id txgrp male age edugroup workhrs exercise paingrps pain 
+	anxiety stress control depress interfere disability 
+	dep1-dep7 interf1-interf6 disab1-disab6;
+usevariables = paingrps exercise control male;
+nominal = paingrps;
+missing = all(999);
+ANALYSIS:
+estimator = bayes;
+fbiterations = 10000;
+bseed = 90291;
+MODEL:
+! normal distribution for predictors;
+exercise control male;
+! focal model (highest code is the reference group);
+paingrps on exercise control male;
+OUTPUT:
+patterns stdyx tech8;

@@ -1,0 +1,15 @@
+# example 5.3: bayesian regression with sequential specification for incomplete predictors
+DATA: employee.dat;
+VARIABLES: employee team turnover male empower lmx worksat climate cohesion;
+ORDINAL: male;
+MISSING: 999;
+FIXED: male;
+MODEL: 
+focal.model:
+empower ~ lmx climate male;
+predictor.model:
+lmx climate ~ male;  # automatic sequential specification for variables to the left of the tilde
+SEED: 90291;
+BURN: 1000;
+ITERATIONS: 10000;
+

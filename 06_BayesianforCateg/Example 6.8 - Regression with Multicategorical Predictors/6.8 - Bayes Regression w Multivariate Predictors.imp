@@ -1,0 +1,14 @@
+# example 6.8: bayesian regression with partially factored (multivariate) distribution for incomplete predictors and latent responses
+DATA: smoking.dat;
+VARIABLES: id intensity hvysmoker age parsmoke female race income educ;
+ORDINAL: parsmoke;
+NOMINAL: educ;
+MISSING: 999;
+FIXED: age;
+CENTER: age;
+MODEL: 
+intensity ~ parsmoke educ age;  # automatic multivariate distribution for incomplete predictors and latent response scores
+SEED: 90291;
+BURN: 1000;
+ITERATIONS: 10000;
+
