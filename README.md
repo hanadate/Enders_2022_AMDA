@@ -1,6 +1,6 @@
 # Enders_2022_AMDA
 ## Obj
-For Learning AMDA https://www.appliedmissingdata.com. 
+This repo is a funsite of AMDA https://www.appliedmissingdata.com to learn the modern imputation. 
 ## Note
 + This repo covers only R.  
 + Edited some names of folder and file shorter, as original ones are too long to handle them by git and windows explorer depending on your env.
