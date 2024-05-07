@@ -1,0 +1,40 @@
+TITLE: 
+example 3.8: fiml moderated regression as multiple group model;
+DATA: 
+file = pain.dat;
+VARIABLE:  
+names = id txgrp male age edugroup workhrs exercise paingrps pain 
+	anxiety stress control depress interfere disability 
+	dep1-dep7 interf1-interf6 disab1-disab6;
+usevariables = disability depress pain;
+grouping = male(0 = female 1 = male);
+missing = all(999);
+DEFINE:
+center depress (grandmean);
+MODEL:
+! normal distribution for predictors;
+depress pain;
+! focal model;
+disability on depress pain;
+MODEL male:
+! label predictor means and variances to impose between-group constraints;
+depress (pred1var); [depress] (pred2mu); pain(pred2var); [pain] (pred2mu);
+! regression model;
+disability on depress (slp_male)
+	pain (slp_pain);
+! label residual variance to impose between-group constraints;
+disability (resvar);
+MODEL female:
+! label predictor means and variances to impose between-group constraints;
+depress (pred1var); [depress] (pred2mu); pain(pred2var); [pain] (pred2mu);
+! regression model;
+disability on depress (slp_fem)
+	pain (slp_pain);;
+! label residual variance to impose between-group constraints;
+disability (resvar);
+MODEL constraint:
+! test between-group slope difference (interaction)
+new(slopediff);
+slopediff = slp_male - slp_fem;
+OUTPUT:
+patterns sampstat stdyx cinterval;
