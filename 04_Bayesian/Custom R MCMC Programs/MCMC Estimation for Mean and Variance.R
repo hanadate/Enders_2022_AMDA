@@ -1,13 +1,14 @@
 # load package
 library(fdir)
 library(mvtnorm)
-
+library(tidyverse)
 # set working directory to this script's location
 fdir::set()
 
 # read data
 dat <- read.table("mathcomplete.dat")
 names(dat) <- c("id", "male", "lunchasst", "achievegrp", "stanread", "efficacy", "anxiety", "mathpre", "mathpost")
+summary(dat)
 
 Y <- dat$mathpost
 
@@ -41,6 +42,7 @@ rownames(summary) <- c("muY", "sigma2")
 colnames(summary) <- c("Mean", "StdDev", "2.5%", "50%", "97.5%")
 
 # summarize posterior distribution of the mean
+# iter1: fig_4.7., iter2: fig_4.8.
 params <- cbind(mu, sigma2)
 for(p in 1:2){
   summary[p,1] <- mean(params[(burnin+1):iterations,p])

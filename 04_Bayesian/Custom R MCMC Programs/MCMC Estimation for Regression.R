@@ -1,16 +1,28 @@
 # load packages
 library(fdir)
 library(mvtnorm)
+library(tidyverse)
 
 # set working directory to this script's location
 fdir::set()
 
 # read data
-dat <- read.table("mathcomplete.dat")
-names(dat) <- c("id", "male", "lunchasst", "achievegrp", "stanread", "efficacy", "anxiety", "mathpre", "mathpost")
+# dat <- read.table("mathcomplete.dat")
+# names(dat) <- c("id", "male", "lunchasst", "achievegrp", "stanread", "efficacy", "anxiety", "mathpre", "mathpost")
 
-X <- cbind(1, dat$mathpre, dat$efficacy, dat$lunchasst)
-Y <- dat$mathpost
+# In this example for lm on the book, smoking data is used, not math one.
+dat <- read.table("smokingcomplete.dat", na.strings = "999")
+names(dat) <- c("id","intensity","hvysmoker","age","parsmoke","female","race","income","educ")
+dat <- dat %>% 
+  dplyr::mutate(age.cgm=age-mean(age),
+                income.cgm=income-mean(income))
+summary(dat)
+
+# X <- cbind(1, dat$mathpre, dat$efficacy, dat$lunchasst)
+# Y <- dat$mathpost
+X <- cbind(1, dat$parsmoke, dat$age.cgm, dat$income.cgm)
+Y <- dat$intensity
+
 
 # initialize algorithmic features
 iterations <- 11000
@@ -41,7 +53,7 @@ summary <- matrix(0, nrow = 5, ncol = 5)
 rownames(summary) <- c("B0", "B1", "B2", "B3", "res. var.")
 colnames(summary) <- c("Mean", "StdDev", "2.5%", "50%", "97.5%")
 
-# summarize posterior distributiona
+# summarize posterior distributions
 params <- cbind(betas, sigma2e)
 for(p in 1:5){
   summary[p,1] <- mean(params[(burnin+1):iterations,p])
