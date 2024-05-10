@@ -10,7 +10,7 @@ fdir::set()
 # dat <- read.table("mathcomplete.dat")
 # names(dat) <- c("id", "male", "lunchasst", "achievegrp", "stanread", "efficacy", "anxiety", "mathpre", "mathpost")
 
-# In this example for lm on the book, smoking data is used, not math one.
+# On this example for lm in the book, smoking data is used, not math one.
 dat <- read.table("smokingcomplete.dat", na.strings = "999")
 names(dat) <- c("id","intensity","hvysmoker","age","parsmoke","female","race","income","educ")
 dat <- dat %>% 
