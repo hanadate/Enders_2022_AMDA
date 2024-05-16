@@ -1,5 +1,9 @@
 # example 5.7: curvilinear regression with factored (sequential) specification for incomplete predictors
 # requires fdir, lavaan, and mdmb packages
+library(fdir)
+library(lavaan)
+library(mdmb)
+library(tidyverse)
 
 # set working directory
 fdir::set()
@@ -49,3 +53,4 @@ predictor.models <- list(frlunch = model.frlunch, anxiety = model.anxiety)
 # estimate factored regression model w mdmb
 fit <- mdmb::frm_fb(dat = dat, dep = model.mathpost, ind = predictor.models) 
 summary(fit)
+# wanna view R^2 and curvilinear regression line

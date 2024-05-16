@@ -1,5 +1,8 @@
 # example 5.4: bayes regression with factored (sequential) specification for incomplete predictors
 # requires fdir and mdmb packages
+library(fdir)
+library(mdmb)
+library(tidyverse)
 
 # set working directory
 fdir::set()
@@ -31,4 +34,5 @@ predictor.models <- list(climate = model.climate, lmx = model.lmx)
 # estimate factored regression model w mdmb
 fit <- mdmb::frm_fb(dat = dat, dep = model.empower, ind = predictor.models) 
 summary(fit)
+# wanna view R^2
 

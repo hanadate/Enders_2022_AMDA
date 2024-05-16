@@ -1,6 +1,7 @@
 # load packages
 library(fdir)
 library(mvtnorm)
+library(tidyverse)
 
 # set working directory to this script's location
 fdir::set()

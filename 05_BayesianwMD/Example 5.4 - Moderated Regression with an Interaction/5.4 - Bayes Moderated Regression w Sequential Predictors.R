@@ -1,6 +1,11 @@
 # example 3.8: moderated regression with factored (sequential) specification for incomplete predictors
 # requires fdir, lavaan, and mdmb packages
 
+library(fdir)
+library(lavaan)
+library(mdmb)
+library(tidyverse)
+
 # set working directory
 fdir::set()
 
@@ -47,3 +52,4 @@ predictor.models <- list(pain = model.pain, depress = model.depress)
 # estimate factored regression model w mdmb
 fit <- mdmb::frm_fb(dat = dat, dep = model.disability, ind = predictor.models) 
 summary(fit)
+# wanna view R^2 and slope

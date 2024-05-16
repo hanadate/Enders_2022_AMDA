@@ -1,5 +1,9 @@
 # example 5.8: bayes regression with factored (sequential) specification for incomplete predictors and auxiliary variables
 # requires fdir, lavaan, and mdmb packages
+library(fdir)
+library(lavaan)
+library(mdmb)
+library(tidyverse)
 
 # set working directory
 fdir::set()
@@ -55,3 +59,4 @@ predictor.models <- list(severity0 = model.severity0, severity6 = model.severity
 # estimate factored regression model w mdmb
 fit <- mdmb::frm_fb(dat = dat, dep = model.severity1, ind = predictor.models) 
 summary(fit)
+# wanna view R^2
