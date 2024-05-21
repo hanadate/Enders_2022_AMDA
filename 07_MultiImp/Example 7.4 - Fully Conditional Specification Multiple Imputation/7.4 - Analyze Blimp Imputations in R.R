@@ -20,6 +20,25 @@ implist <- mitml::as.mitml.list(split(imps, imps$Imputation))
 analysis <- with(implist, lm(change ~ 1))
 
 # significance tests with barnard & rubin degrees of freedom
-estimates <- mitml::testEstimates(analysis, extra.pars = T, df.com = 249)
+estimates <- mitml::testEstimates(analysis,
+                                  extra.pars = T, 
+                                  df.com = 249)
 estimates
 confint(estimates, level = .95)
+
+
+# table7.2 posterior summary of the FCS
+# analyse and pool
+fit.mathpost <- with(implist, exp=lm(mathpost ~ mathpre+stanread+frlunch))
+estimates <- mitml::testEstimates(fit.mathpost,
+                                  extra.pars = T, 
+                                  df.com = 249)
+estimates
+confint(estimates, level = .95)
+
+
+fit.stanread <- with(imps, exp=lm(stanread ~ mathpre+frlunch+mathpost))
+summary(pool(fit.stanread))
+
+fit.frlunch <- with(imps, exp=lm(frlunch ~ mathpre+mathpost+stanread))
+summary(pool(fit.frlunch))
