@@ -135,3 +135,4 @@ params <- cbind(betas,thresholds[,2:7])
 for(p in 1:nrow(summary)){
   plot(density(params[(burnin+1):iterations,p]), main = rownames(summary)[p], xlab = "Parameter Value")
 }
+

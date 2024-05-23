@@ -14,6 +14,7 @@ names(imps) <- c("Imputation", "id", "male", "frlunch", "achievegrp", "stanread"
 # compute change score from imputed data
 imps$change <- imps$mathpost - imps$mathpre
 summary(imps)
+glimpse(imps)
 
 # analysis and pooling
 implist <- mitml::as.mitml.list(split(imps, imps$Imputation))
@@ -26,19 +27,11 @@ estimates <- mitml::testEstimates(analysis,
 estimates
 confint(estimates, level = .95)
 
-
+# TODO
 # table7.2 posterior summary of the FCS
-# analyse and pool
+# analyse
 fit.mathpost <- with(implist, exp=lm(mathpost ~ mathpre+stanread+frlunch))
-estimates <- mitml::testEstimates(fit.mathpost,
-                                  extra.pars = T, 
-                                  df.com = 249)
-estimates
-confint(estimates, level = .95)
-
 
 fit.stanread <- with(imps, exp=lm(stanread ~ mathpre+frlunch+mathpost))
-summary(pool(fit.stanread))
 
 fit.frlunch <- with(imps, exp=lm(frlunch ~ mathpre+mathpost+stanread))
-summary(pool(fit.frlunch))

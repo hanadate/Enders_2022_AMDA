@@ -1,5 +1,8 @@
 # example 7.11: analyze model-based multiple imputations from blimp
 # requires fdir and mitml packages
+library(mitml)
+library(fdir)
+library(tidyverse)
 
 # set working directory
 fdir::set()
