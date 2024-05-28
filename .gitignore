@@ -2,6 +2,7 @@
 .pdf
 .inp
 .imp
+.dat
 # History files
 .Rhistory
 .Rapp.history
