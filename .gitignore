@@ -1,8 +1,8 @@
 .DS_Store
-.pdf
-.inp
-.imp
-.dat
+*.pdf
+*.inp
+*.imp
+*.dat
 # History files
 .Rhistory
 .Rapp.history
