@@ -10,11 +10,11 @@ library(tidyverse)
 fdir::set()
 
 # inspect problemsolving2level.dat
-edu2lv <- read_table("problemsolving2level.dat",col_names = FALSE) 
+edu2lv <- read_table("problemsolving2level.dat",col_names = FALSE,na="999") 
 dim(edu2lv) # 982 14
 names(edu2lv) <- c("school","student","condition","teachexp","eslpct","ethnic","male","frlunch",
-                   "achievegrp","stanmath","efficacy1","efficacy2","probsolve1","probsolve2") 
-
+                   "achievegrp","stanmath","efficacy1","efficacy2","probsolve1","probsolve2")
+summary(edu2lv)
 
 # read imputed data from working directory
 imps <- read.table("imps.dat")
