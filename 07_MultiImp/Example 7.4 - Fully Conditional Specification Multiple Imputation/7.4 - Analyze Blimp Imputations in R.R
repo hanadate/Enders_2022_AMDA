@@ -3,6 +3,8 @@
 library(fdir)
 library(mitml)
 library(tidyverse)
+library(rblimp)
+library(mice)
 
 # set working directory
 fdir::set()
@@ -30,8 +32,25 @@ confint(estimates, level = .95)
 # TODO
 # table7.2 posterior summary of the FCS
 # analyse
-fit.mathpost <- with(implist, exp=lm(mathpost ~ mathpre+stanread+frlunch))
+fit.mathpost <- with(implist, 
+                     exp=lm(mathpost ~ 
+                              I(mathpre-dat.all.means["mathpre"])+
+                              I(stanread-dat.all.means["stanread"])+
+                              I(frlunch-dat.all.means["frlunch"])
+                     ))
+summary(pool(fit.mathpost))
 
-fit.stanread <- with(imps, exp=lm(stanread ~ mathpre+frlunch+mathpost))
+fit.stanread <- with(implist, 
+                     exp=lm(stanread ~ 
+                              I(mathpre-dat.all.means["mathpre"])+
+                              frlunch+
+                              I(mathpost-dat.all.means["mathpost"])
+                     ))
+summary(pool(fit.stanread))
 
-fit.frlunch <- with(imps, exp=lm(frlunch ~ mathpre+mathpost+stanread))
+fit.frlunch <- with(implist, exp=glm(frlunch ~ 
+                                    I(mathpre-dat.all.means["mathpre"])+
+                                    I(mathpost-dat.all.means["mathpost"])+
+                                    I(stanread-dat.all.means["stanread"]),
+                                  family=binomial))
+summary(pool(fit.frlunch))
