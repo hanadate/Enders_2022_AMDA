@@ -25,29 +25,29 @@ dat <- dat.all %>%
 glimpse(dat)
 summary(dat)
 
-# detect cores
-detectCores() #16
-# imputes
-t <- now()
-imps <- futuremice(data=dat, parallelseed=1111,
-                   m=100, maxit=1000,
-                   n.core=10,
-                   method=c("norm","norm","norm","logreg"))
-now()-t
-save(imps, file = "mice.imps.Rdata")
+# # detect cores
+# detectCores() #16
+# # imputes
+# t <- now()
+# imps <- futuremice(data=dat, parallelseed=1111,
+#                    m=100, maxit=1000,
+#                    n.core=10,
+#                    method=c("norm","norm","norm","logreg"))
+# now()-t
+# save(imps, file = "mice.imps.Rdata")
 load("mice.imps.Rdata")
 # 2mins
 summary(imps)
 imps$formulas
 
-# conv
-plot(imps)
-conv <- convergence(imps)
-plot(conv)
-# diagnostics 
-bwplot(imps) # box-and-whisker
-stripplot(imps) # for num. red is imp.
-densityplot(imps) # density
+# # conv
+# plot(imps)
+# conv <- convergence(imps)
+# plot(conv)
+# # diagnostics 
+# bwplot(imps) # box-and-whisker
+# stripplot(imps) # for num. red is imp.
+# densityplot(imps) # density
 
 # # complete data
 # # 100 is numeric. 100L is long-integer.
@@ -63,6 +63,8 @@ fit.mathpost <- with(imps,
                               frlunch
                      ))
 summary(pool(fit.mathpost))
+# mine: 57.46, 0.42, 0.32, -1.70
+# true: 56.64, 0.42, 0.31, -1.04
 
 fit.stanread <- with(imps, 
                      exp=lm(stanread ~ 
@@ -71,6 +73,8 @@ fit.stanread <- with(imps,
                               I(mathpost-dat.all.means["mathpost"])
                      ))
 summary(pool(fit.stanread))
+# mine: 54.55, 0.05, -4.73, 0.46
+# true: 56.64, 0.42, 0.31, -1.04
 
 fit.frlunch <- with(imps, exp=glm(frlunch ~ 
                                     I(mathpre-dat.all.means["mathpre"])+
@@ -78,4 +82,5 @@ fit.frlunch <- with(imps, exp=glm(frlunch ~
                                     I(stanread-dat.all.means["stanread"]),
                                   family=binomial))
 summary(pool(fit.frlunch))
-
+# mine: -0.46, 0.01, -0.03, -0.06
+# true: -0.27, 0.01, -0.02, -0.04 
