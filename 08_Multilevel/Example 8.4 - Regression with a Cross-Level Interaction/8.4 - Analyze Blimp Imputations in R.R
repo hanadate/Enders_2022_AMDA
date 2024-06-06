@@ -1,8 +1,18 @@
 # example 8.4: analyze model-based multiple imputations for a multilevel regression with a cross-level interaction
 # requires fdir, rockchalk, lme4, and mitml packages
-
+library(fdir)
+library(rockchalk)
+library(lme4)
+library(mitml)
+library(tidyverse)
 # set working directory
 fdir::set()
+
+# read employee
+dat <- read_table("employee.dat", col_names=FALSE, na="999")
+names(dat) <- c("employee","team","turnover","male","empower","lmx","jobsat","climate","cohesion")
+glimpse(dat)
+summary(dat)
 
 # read imputed data from working directory
 imps <- read.table("imps.dat")

@@ -17,6 +17,7 @@ names(edu2lv) <- c("school","student","condition","teachexp","eslpct","ethnic","
 summary(edu2lv)
 
 # read imputed data from working directory
+# ranincept: arandom intercept
 imps <- read.table("imps.dat")
 names(imps) <- c("Imputation","school","student","condition","teachexp","eslpct","ethnic","male","frlunch",
                  "achievegrp","stanmath","efficacy1","efficacy2","probsolve1","probsolve2",
@@ -24,6 +25,8 @@ names(imps) <- c("Imputation","school","student","condition","teachexp","eslpct"
 summary(imps)
 # distribution of random intercept residuals
 plot(density(imps$ranicept.l2))
+ggplot(imps, aes(sample=ranicept.l2))+stat_qq()+stat_qq_line()
+
 rockchalk::skewness(imps$ranicept.l2)
 rockchalk::kurtosis(imps$ranicept.l2)
 

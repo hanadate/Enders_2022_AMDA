@@ -1,9 +1,19 @@
 # example 8.3: analyze model-based multiple imputations for a multilevel regression with random slopes
 # requires fdir, rockchalk, lme4, and mitml packages
-
+library(fdir)
+library(rockchalk)
+library(lme4)
+library(mitml)
+library(tidyverse)
 # set working directory
 fdir::set()
 
+# read diary
+dat <- read_table("diary.dat", col_names=FALSE, na="999")
+names(dat) <- c('person','day','pain','sleep','posaff','negaff','lifegoal','female','educ','diagnoses','activity',
+                 'painaccept','catastrophize','stress')
+glimpse(dat)
+summary(dat)
 # read imputed data from working directory
 imps <- read.table("imps.dat")
 names(imps) <- c('Imputation','person','day','pain','sleep','posaff','negaff','lifegoal','female','educ','diagnoses','activity',
@@ -28,6 +38,7 @@ implist <- mitml::as.mitml.list(split(imps, imps$Imputation))
 model <- "posaff ~ pain.cwc + sleep.cgm + pain.l2mean.cgm + painaccept.cgm + female + (1 + pain.cwc | person)"
 analysis <- with(implist, lme4::lmer(model, REML = T))
 
+# table8.3
 # significance tests with barnard & rubin degrees of freedom
 df <- 132 - 5 - 1
 estimates <- mitml::testEstimates(analysis, extra.pars = T, df.com = df)
